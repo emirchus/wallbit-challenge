@@ -1,23 +1,26 @@
-import { ProductCart } from '@/interfaces/product-cart';
+import type { Cart } from '@/interfaces/cart';
 import { useMemo } from 'react';
 
 interface Props {
   toggleReceipt: () => void;
-  cart: ProductCart[];
-  startTime: string;
+  cart: Cart;
 }
 
-export const Receipt = ({ cart, toggleReceipt, startTime }: Props) => {
+export const Receipt = ({ cart, toggleReceipt }: Props) => {
   const orderNumber = useMemo(() => Math.floor(Math.random() * 9000) + 1000, []);
-  const orderTotal = useMemo(() => cart.reduce((acc, item) => acc + item.price * item.quantity, 0), [cart]);
+
+  const orderTotal = useMemo(() => cart.products.reduce((acc, item) => acc + item.price * item.quantity, 0), [cart]);
   const tax = useMemo(() => orderTotal * 0.16, [orderTotal]);
 
   return (
     <div className="fixed inset-0 z-[5] flex items-center justify-center bg-background/80" onClick={toggleReceipt}>
-      <div className="w-full max-h-[90vh] overflow-auto max-w-md border bg-background p-8 font-mono" onClick={e => e.stopPropagation()}>
+      <div
+        className="max-h-[90vh] w-full max-w-md overflow-auto border bg-background p-8 font-mono"
+        onClick={e => e.stopPropagation()}
+      >
         <div className="mb-8 text-center">
           <h1 className="mb-2 text-2xl font-bold">EL TOPO</h1>
-          <div>{startTime}</div>
+          <div>{cart.createdAt.toDateString()}</div>
           <div className="mt-2">ORDEN #{orderNumber}</div>
         </div>
 
@@ -27,9 +30,9 @@ export const Receipt = ({ cart, toggleReceipt, startTime }: Props) => {
         </div>
 
         <div className="mb-6 border-b border-t border-dashed py-4">
-          {cart.map((item, index) => (
+          {cart.products.map((item, index) => (
             <div key={index} className="flex justify-between">
-              <p className='truncate'>
+              <p className="truncate">
                 {item.quantity}x {item.title}
               </p>
               <div>${item.price * item.quantity}</div>
