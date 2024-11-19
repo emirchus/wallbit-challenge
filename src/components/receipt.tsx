@@ -1,5 +1,5 @@
 import type { Cart } from '@/interfaces/cart';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 interface Props {
   toggleReceipt: () => void;
@@ -12,6 +12,14 @@ export const Receipt = ({ cart, toggleReceipt }: Props) => {
   const orderTotal = useMemo(() => cart.products.reduce((acc, item) => acc + item.price * item.quantity, 0), [cart]);
   const tax = useMemo(() => orderTotal * 0.16, [orderTotal]);
 
+  useEffect(() =>{
+    document.body.style.overflowY = 'hidden';
+
+    return () => {
+      document.body.style.overflowY = 'auto';
+    };
+  }, []);
+
   return (
     <div className="fixed inset-0 z-[5] flex items-center justify-center bg-background/80" onClick={toggleReceipt}>
       <div
@@ -20,7 +28,12 @@ export const Receipt = ({ cart, toggleReceipt }: Props) => {
       >
         <div className="mb-8 text-center">
           <h1 className="mb-2 text-2xl font-bold">EL TOPO</h1>
-          <div>{cart.createdAt.toDateString()}</div>
+          <div>{cart.createdAt.toLocaleDateString("es", {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}</div>
           <div className="mt-2">ORDEN #{orderNumber}</div>
         </div>
 
@@ -35,7 +48,7 @@ export const Receipt = ({ cart, toggleReceipt }: Props) => {
               <p className="truncate">
                 {item.quantity}x {item.title}
               </p>
-              <div>${item.price * item.quantity}</div>
+              <div>${(item.price * item.quantity).toFixed(2)}</div>
             </div>
           ))}
         </div>

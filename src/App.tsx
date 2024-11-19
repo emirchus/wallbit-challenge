@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Loader, Power } from 'lucide-react';
 import { RetroScreen } from './components/retro-screen';
-import { CartForm } from './components/cart-form';
 import { cn } from './lib/utils';
 import { useAudioContext } from './hooks/use-audio-context';
 import { useAudioBuffer } from './hooks/use-audio-buffer';
 import { Button } from './components/ui/button';
+import { CartContextProvider } from './provider/cart-provider';
+import HomePage from './components/home';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
-  const [startTime, setStartTime] = useState<string>('');
   const [isGlitching, setIsGlitching] = useState(false);
   const [isPoweringOff, setIsPoweringOff] = useState(false);
   const [isSoundEnabled, setIsSoundEnabled] = useState(true);
@@ -34,15 +34,7 @@ export default function App() {
         if (oldProgress === 100) {
           clearInterval(timer);
           setTimeout(() => setIsLoading(false), 500);
-          setStartTime(
-            new Date().toLocaleString('es-ES', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-            })
-          );
+
           return 100;
         }
         const newProgress = oldProgress + 10;
@@ -155,13 +147,14 @@ export default function App() {
             <div className="mt-2 text-xl tracking-wider">{loadingProgress}%</div>
           </div>
         ) : (
-          <CartForm
-            startTime={startTime}
-            isPoweredOn={isPoweringOff}
-            isSoundEnabled={isSoundEnabled}
-            togglePower={() => setIsPoweringOff(!isPoweringOff)}
-            toggleSound={() => setIsSoundEnabled(!isSoundEnabled)}
-          />
+          <CartContextProvider>
+            <HomePage
+              isPoweredOn={isPoweringOff}
+              isSoundEnabled={isSoundEnabled}
+              togglePower={() => setIsPoweringOff(!isPoweringOff)}
+              toggleSound={() => setIsSoundEnabled(!isSoundEnabled)}
+            />
+          </CartContextProvider>
         )}
       </RetroScreen>
 

@@ -31,6 +31,7 @@
   * {
     @apply border-border;
   }
+
   body {
     font-family: 'VT323';
     font-size: 24px;
@@ -39,7 +40,7 @@
     animation: crt-output 10ms infinite;
 
     animation: powerOff 2s alternate-reverse;
-    @apply h-screen w-screen overflow-hidden bg-background text-foreground;
+    @apply h-screen w-screen overflow-x-hidden bg-background text-foreground;
   }
 }
 

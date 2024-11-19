@@ -73,6 +73,21 @@ export const addProductToCart = (product: ProductCart): Cart | undefined => {
   return cart;
 };
 
+export const updateProductInCart = (product: ProductCart): Cart | undefined => {
+  const cart = getCartFromStorage();
+
+  if (!cart) return;
+
+  const updatedProducts = cart.products.map(productCart =>
+    productCart.id === product.id ? { ...productCart, quantity: product.quantity } : productCart
+  );
+
+  return updateCart({
+    ...cart,
+    products: updatedProducts,
+  });
+};
+
 export const removeProductFromCart = (id: number): Cart | undefined => {
   const cart = getCartFromStorage();
 
