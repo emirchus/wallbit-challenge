@@ -46,7 +46,7 @@
 
 @keyframes crt-output {
   0% {
-    opacity: 0.9;
+    opacity: 0.2;
   }
   50% {
     opacity: 1;
@@ -144,6 +144,8 @@
   border-radius: 2rem;
   position: absolute;
   z-index: 100;
+  animation: crt-output 10ms infinite;
+
 }
 
 ::-webkit-scrollbar {
