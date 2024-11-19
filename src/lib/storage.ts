@@ -20,7 +20,7 @@ export const createCart = (): Cart => {
 export const updateCart = (cart: Cart): Cart => {
   localStorage.setItem('cart', JSON.stringify(cart));
 
-  return cart;
+  return getCart()!;
 };
 
 export const clearCart = () => {
@@ -30,7 +30,7 @@ export const clearCart = () => {
 export const getCart = (): Cart | undefined | null => {
   let cart = getDataFromStorage<Cart>('cart');
 
-  if(cart) {
+  if (cart) {
     cart = {
       ...cart,
       createdAt: new Date(cart.createdAt),
