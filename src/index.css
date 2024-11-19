@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --destructive-foreground: 120 2% 4%;
+    --secondary-foreground: 120 2% 4%;
+    --popover-foreground: 120 100% 50%;
+    --primary-foreground: 120 2% 4%;
+    --accent-foreground: 120 2% 4%;
+    --muted-foreground: 120 100% 50%;
+    --card-foreground: 120 100% 50%;
+    --destructive: 0 100% 40%;
+    --background: 120 100% 5%;
+    --foreground: 155 100% 50%;
+    --secondary: 120 100% 40%;
+    --popover: 120 2% 6%;
+    --primary: 120 100% 50%;
+    --border: 155 100% 50%;
+    --accent: 120 100% 60%;
+    --muted: 120 2% 13%;
+    --input: 120 2% 32%;
+    --card: 120 2% 4%;
+    --ring: 120 100% 50%;
+    --radius: 0.4rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    font-family: 'VT323';
+    font-size: 24px;
+    -webkit-font-smoothing: none;
+    line-height: 1.2;
+    animation: crt-output 10ms infinite;
+
+    animation: powerOff 2s alternate-reverse;
+    @apply h-screen w-screen overflow-hidden bg-background text-foreground;
+  }
+}
+
+@keyframes crt-output {
+  0% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes noise {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-5%, -5%);
+  }
+  20% {
+    transform: translate(-10%, 5%);
+  }
+  30% {
+    transform: translate(5%, -10%);
+  }
+  40% {
+    transform: translate(-5%, 15%);
+  }
+  50% {
+    transform: translate(-10%, 5%);
+  }
+  60% {
+    transform: translate(15%, 0);
+  }
+  70% {
+    transform: translate(0, 10%);
+  }
+  80% {
+    transform: translate(-15%, 0);
+  }
+  90% {
+    transform: translate(10%, 5%);
+  }
+  100% {
+    transform: translate(5%, 0);
+  }
+}
+
+.glitch {
+  animation: glitch 0.3s infinite;
+}
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-5px, 5px);
+  }
+  40% {
+    transform: translate(-5px, -5px);
+  }
+  60% {
+    transform: translate(5px, 5px);
+  }
+  80% {
+    transform: translate(5px, -5px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+.powering-off {
+  animation: powerOff 2s forwards;
+}
+@keyframes powerOff {
+  0% {
+    filter: brightness(1) contrast(1);
+  }
+  50% {
+    filter: brightness(0.5) contrast(2);
+  }
+  100% {
+    filter: brightness(0) contrast(3);
+  }
+}
+
+.scanlines {
+  pointer-events: none;
+  display: block;
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.2) 70%,
+    rgba(0, 0, 0, 0.6)
+  );
+  background-size: 100% 0.3rem;
+  border-radius: 2rem;
+  position: absolute;
+  z-index: 100;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 5px;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
+}
